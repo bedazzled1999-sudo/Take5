@@ -134,6 +134,25 @@
     background: none; border: none; text-decoration: underline; color: var(--emerald-deep); cursor: pointer;
     font-size: 0.85rem; padding: 0; font-weight: 700;
   }
+  #take-five-root .apikey-link {
+    display: block; margin: 0.6rem auto 0; background: none; border: none; text-decoration: underline;
+    color: var(--ink-faint); cursor: pointer; font-size: 0.78rem; font-weight: 700;
+  }
+  #take-five-root .apikey-link:hover { color: var(--emerald-deep); }
+  #take-five-root .apikey-row {
+    display: flex; gap: 0.5rem; max-width: 520px; margin: 0.8rem auto 0;
+  }
+  #take-five-root .apikey-input {
+    flex: 1; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 500;
+    background: var(--card); border: 1.5px solid var(--emerald-soft); border-radius: 999px;
+    padding: 0.55rem 1rem; color: var(--ink); outline: none;
+  }
+  #take-five-root .apikey-input:focus { border-color: var(--emerald); }
+  #take-five-root .apikey-save {
+    font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 0.82rem;
+    background: var(--ink); color: #fff; border: none; border-radius: 999px;
+    padding: 0.5rem 1.1rem; cursor: pointer;
+  }
 
   /* ---------- Trending ---------- */
   #take-five-root .trending {
@@ -348,6 +367,11 @@
         <button id="tf-search-btn" class="search-btn">Check Impact</button>
       </div>
       <div class="search-hint" id="tf-hint"></div>
+      <button class="apikey-link" id="tf-apikey-link" type="button">API key</button>
+      <div class="apikey-row" id="tf-apikey-row" style="display:none;">
+        <input id="tf-apikey-input" class="apikey-input" type="password" placeholder="Paste your Gemini API key (from aistudio.google.com)" />
+        <button id="tf-apikey-save" class="apikey-save" type="button">Save</button>
+      </div>
     </div>
 
     <div class="trending">
@@ -510,7 +534,7 @@ CORE QUESTION: How sustainably is this company actually operating, based on the 
 You will be given a company and a fixed list of material sustainability topics (already mapped and weighted via Take Five's NIC\u2192SASB crosswalk \u2014 do not change, add, or remove topics, and do not attempt your own SASB mapping).
 
 For EACH topic given to you:
-1. Use the web_search tool across multiple queries to gather real, current, India-specific evidence: company disclosures (annual/BRSR/ESG reports, investor material, earnings calls, executive statements); regulatory and government records (SEBI, MCA, pollution control boards, penalties, enforcement); legal sources (court judgments, litigation); independent sources (investigative journalism, NGO reports, academic research, certifications, audits); and stakeholder evidence (employee/consumer/community complaints, documented controversies).
+1. Search the web across multiple queries to gather real, current, India-specific evidence: company disclosures (annual/BRSR/ESG reports, investor material, earnings calls, executive statements); regulatory and government records (SEBI, MCA, pollution control boards, penalties, enforcement); legal sources (court judgments, litigation); independent sources (investigative journalism, NGO reports, academic research, certifications, audits); and stakeholder evidence (employee/consumer/community complaints, documented controversies).
 2. Weigh evidence by credibility: Very High (government records, regulatory/court findings, audited/verified filings, independent assurance) > High (reputable investigative journalism, credible NGO/academic research) > Medium-High (company disclosures, management statements) > Low (unverified social media, anonymous allegations). Low-reliability evidence alone should not move the score, but a corroborated pattern across sources can.
 3. Weigh BOTH positive and negative evidence. Credible negative evidence MUST reduce the performance score \u2014 never mention it while leaving the score unchanged. Calibrate the size of any deduction to severity, credibility, recency, corroboration, relevance, whether it's isolated or systemic, and remediation. Never double-count one incident reported by multiple outlets. Distinguish allegation vs. reported claim vs. substantiated/regulatory/court finding vs. company admission vs. independent verification.
 4. Score performance 0-100 (0 severe negative evidence, 25 poor, 50 moderate, 75 strong, 100 excellent). Never score high purely for extensive disclosure \u2014 disclosure is evidence, not performance.
@@ -533,26 +557,43 @@ Respond with ONLY a single valid JSON object, no markdown fences, no prose:
   "methodology_note": string (1-2 sentences on anything unusual \u2014 thin evidence, a secondary-activity risk folded into a topic, etc. Empty string if nothing notable.)
 }`;
 
-  async function callClaude(system, userText, useSearch){
+  const GEMINI_MODEL = 'gemini-flash-latest';
+  const GEMINI_KEY_STORAGE = 'tf_gemini_api_key';
+
+  function getGeminiKey(){
+    return (localStorage.getItem(GEMINI_KEY_STORAGE) || '').trim();
+  }
+  function setGeminiKey(key){
+    localStorage.setItem(GEMINI_KEY_STORAGE, key.trim());
+  }
+
+  async function callGemini(system, userText, useSearch){
+    const key = getGeminiKey();
+    if (!key) throw new Error('No Gemini API key set. Click "API key" below the search box and paste one from aistudio.google.com.');
     const body = {
-      model: 'claude-sonnet-4-6',
-      max_tokens: 8000,
-      system: system,
-      messages: [ { role: 'user', content: userText } ]
+      systemInstruction: { parts: [ { text: system } ] },
+      contents: [ { role: 'user', parts: [ { text: userText } ] } ],
+      generationConfig: { maxOutputTokens: 8000 }
     };
-    if (useSearch) body.tools = [ { type: 'web_search_20250305', name: 'web_search' } ];
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    if (useSearch) body.tools = [ { google_search: {} } ];
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
+    const resp = await fetch(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
       body: JSON.stringify(body)
     });
     if (!resp.ok) {
       const errText = await resp.text().catch(()=> '');
-      throw new Error('API request failed (' + resp.status + '). ' + errText.slice(0,200));
+      throw new Error('Gemini API request failed (' + resp.status + '). ' + errText.slice(0,300));
     }
     const data = await resp.json();
-    const textBlocks = (data.content || []).filter(b => b.type === 'text').map(b => b.text);
-    const raw = textBlocks.join('\n').trim();
+    const candidate = (data.candidates || [])[0];
+    if (!candidate) {
+      const blockReason = data.promptFeedback && data.promptFeedback.blockReason;
+      throw new Error(blockReason ? `Gemini blocked this request (${blockReason}).` : 'No output was returned. Try again.');
+    }
+    const parts = (candidate.content && candidate.content.parts) || [];
+    const raw = parts.filter(p => typeof p.text === 'string').map(p => p.text).join('\n').trim();
     if (!raw) throw new Error('No output was returned. Try again.');
     const cleaned = raw.replace(/^```json/i, '').replace(/^```/,'').replace(/```$/,'').trim();
     const start = cleaned.indexOf('{');
@@ -563,7 +604,7 @@ Respond with ONLY a single valid JSON object, no markdown fences, no prose:
   }
 
   async function identifyCompany(name){
-    return callClaude(IDENTIFY_SYSTEM_PROMPT, `Identify this company for Take Five: "${name}"`, true);
+    return callGemini(IDENTIFY_SYSTEM_PROMPT, `Identify this company for Take Five: "${name}"`, true);
   }
 
   async function scoreCompany(companyInfo, weightedPillars){
@@ -581,7 +622,7 @@ ${topicList.map(t => {
   const def = window.TF_TOPIC_DEFINITIONS && window.TF_TOPIC_DEFINITIONS[t.name];
   return `- ${t.name} (${t.pillar}, ${t.final_weight_pct}% of overall score)${def ? `\n  Definition: ${def}` : ''}`;
 }).join('\n')}`;
-    return callClaude(SCORE_SYSTEM_PROMPT, userText, true);
+    return callGemini(SCORE_SYSTEM_PROMPT, userText, true);
   }
 
   // ---------- Assemble final result & deterministic math ----------
@@ -635,6 +676,33 @@ ${topicList.map(t => {
       runSearch();
     });
   });
+
+  // ---------- Gemini API key UI ----------
+  const apikeyLink = $('#tf-apikey-link');
+  const apikeyRow = $('#tf-apikey-row');
+  const apikeyInput = $('#tf-apikey-input');
+  const apikeySave = $('#tf-apikey-save');
+
+  function refreshApikeyLinkLabel(){
+    apikeyLink.textContent = getGeminiKey() ? 'API key saved \u2713 (click to change)' : 'API key';
+  }
+  refreshApikeyLinkLabel();
+
+  apikeyLink.addEventListener('click', () => {
+    const showing = apikeyRow.style.display !== 'none';
+    apikeyRow.style.display = showing ? 'none' : 'flex';
+    if (!showing) {
+      apikeyInput.value = getGeminiKey();
+      apikeyInput.focus();
+    }
+  });
+  apikeySave.addEventListener('click', () => {
+    setGeminiKey(apikeyInput.value);
+    apikeyRow.style.display = 'none';
+    refreshApikeyLinkLabel();
+    setHint('Gemini API key saved to this browser.');
+  });
+  apikeyInput.addEventListener('keydown', e => { if (e.key === 'Enter') apikeySave.click(); });
 
   function renderLoading(){
     loadingEl.style.display = 'block';
