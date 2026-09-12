@@ -1,25 +1,25 @@
 <style>
   #take-five-root {
-    --mint-bg: #EAFBF2;
-    --mint: #7CE8B8;
-    --mint-deep: #22B47E;
-    --mint-ink: #0E6B4A;
-    --pink-bg: #FFE9F4;
-    --pink: #FFC2E0;
-    --pink-deep: #FF7FB4;
-    --pink-ink: #C43D7C;
+    --cream: #FBFAF5;
+    --ink: #15181F;
+    --ink-soft: #6B7280;
+    --ink-faint: #A7ACB6;
+    --green: #1FA35F;
+    --green-deep: #0F7A45;
+    --green-soft: #E3F7EC;
+    --pink: #FF8FC0;
+    --pink-deep: #E85DA0;
+    --pink-soft: #FFE9F4;
     --card: #FFFFFF;
-    --ink: #3A2145;
-    --ink-soft: #8B7A9C;
     --coral: #FF6B6B;
     --coral-bg: #FFE3E3;
     --coral-ink: #D14646;
     --sun: #FFB84D;
     --sun-bg: #FFF0D6;
     --sun-ink: #C77800;
-    font-family: 'Nunito', -apple-system, sans-serif;
+    font-family: 'DM Sans', -apple-system, sans-serif;
     color: var(--ink);
-    background: linear-gradient(160deg, var(--mint-bg) 0%, var(--mint-bg) 45%, var(--pink-bg) 100%);
+    background: var(--cream);
     min-height: 100vh;
     padding: 0 0 6rem 0;
     line-height: 1.55;
@@ -27,64 +27,87 @@
   #take-five-root * { box-sizing: border-box; }
   #take-five-root .wrap { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; }
   #take-five-root h1, #take-five-root h2, #take-five-root h3, #take-five-root .serif {
-    font-family: 'Fredoka', 'Nunito', sans-serif;
+    font-family: 'Bricolage Grotesque', 'DM Sans', sans-serif;
   }
 
-  /* ---------- Masthead ---------- */
-  #take-five-root .masthead {
-    padding: 3rem 0 1.6rem 0;
-  }
-  #take-five-root .masthead-row {
-    display: flex; justify-content: space-between; align-items: flex-end; gap: 1rem; flex-wrap: wrap;
+  /* ---------- Hero ---------- */
+  #take-five-root .hero {
+    position: relative; max-width: 1200px; margin: 0 auto; padding: 3.5rem 1.5rem 2.5rem;
+    text-align: center; overflow: visible;
   }
   #take-five-root .wordmark {
-    font-size: 2.8rem; font-weight: 600; letter-spacing: -0.01em; margin: 0; color: var(--mint-ink);
+    font-size: 1.6rem; font-weight: 700; font-style: italic; letter-spacing: 0.01em;
+    color: var(--green-deep); margin: 0 0 2.2rem 0;
   }
-  #take-five-root .wordmark span {
-    color: var(--pink-deep);
-    text-shadow: 2px 2px 0 var(--mint);
+  #take-five-root .headline {
+    font-size: 3.2rem; font-weight: 700; line-height: 1.08; margin: 0 auto 1.2rem;
+    max-width: 820px; letter-spacing: -0.01em; color: var(--ink);
   }
-  #take-five-root .tagline {
-    font-size: 0.95rem; color: var(--ink-soft); max-width: 320px; text-align: right;
-    padding-bottom: 0.5rem; font-weight: 600;
+  #take-five-root .headline .accent { color: var(--green); }
+  #take-five-root .hero-sub {
+    font-size: 1.05rem; color: var(--ink-soft); max-width: 560px; margin: 0 auto 2rem;
+    font-weight: 500;
   }
+  #take-five-root .badge {
+    position: absolute; display: flex; align-items: center; gap: 0.4rem;
+    background: var(--card); border-radius: 12px; padding: 0.5rem 0.8rem;
+    font-size: 0.62rem; font-weight: 800; letter-spacing: 0.04em; color: var(--ink);
+    box-shadow: 0 10px 22px rgba(21,24,31,0.1); white-space: nowrap;
+  }
+  #take-five-root .badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+  #take-five-root .badge .dot.pink { background: var(--pink-deep); }
+  #take-five-root .badge-1 { top: 14%; left: 2%; transform: rotate(-7deg); }
+  #take-five-root .badge-2 { top: 34%; right: 1%; transform: rotate(5deg); }
+  #take-five-root .badge-3 { bottom: 14%; right: 6%; transform: rotate(-4deg); }
+  #take-five-root .badge-4 { bottom: 6%; left: 6%; transform: rotate(6deg); }
+  @media (max-width: 980px) { #take-five-root .badge { display: none; } }
 
   /* ---------- Search ---------- */
-  #take-five-root .search-panel { padding: 1.4rem 0 2rem 0; }
-  #take-five-root .search-row { display: flex; gap: 0.8rem; }
+  #take-five-root .search-panel { max-width: 620px; margin: 0 auto; padding-bottom: 0.6rem; }
+  #take-five-root .search-row {
+    display: flex; align-items: center; gap: 0.5rem; background: var(--card);
+    border-radius: 999px; padding: 0.5rem 0.5rem 0.5rem 1.3rem;
+    box-shadow: 0 16px 34px rgba(21,24,31,0.09);
+  }
+  #take-five-root .search-icon { color: var(--ink-faint); flex-shrink: 0; display: flex; }
   #take-five-root .search-input {
-    flex: 1; font-family: 'Fredoka', sans-serif; font-size: 1.2rem;
-    background: var(--card); border: none; border-radius: 999px;
-    padding: 1rem 1.6rem; color: var(--ink); outline: none;
-    box-shadow: 0 6px 0 var(--mint), 0 6px 18px rgba(58,33,69,0.08);
-    transition: transform 0.12s ease;
+    flex: 1; font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 500;
+    background: transparent; border: none;
+    padding: 0.7rem 0.3rem; color: var(--ink); outline: none;
   }
-  #take-five-root .search-input::placeholder { color: #B8ABC4; font-weight: 500; }
-  #take-five-root .search-input:focus { transform: translateY(2px); box-shadow: 0 4px 0 var(--mint), 0 4px 14px rgba(58,33,69,0.1); }
+  #take-five-root .search-input::placeholder { color: var(--ink-faint); }
   #take-five-root .search-btn {
-    font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 1.05rem;
-    background: linear-gradient(135deg, var(--pink-deep), var(--mint-deep)); color: #fff; border: none; border-radius: 999px;
-    padding: 1rem 1.8rem; cursor: pointer; transition: transform 0.12s ease, box-shadow 0.12s ease;
-    box-shadow: 0 6px 0 rgba(58,33,69,0.18);
+    font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 0.95rem;
+    background: var(--green); color: #fff; border: none; border-radius: 999px;
+    padding: 0.85rem 1.6rem; cursor: pointer; transition: background 0.15s ease, transform 0.12s ease;
+    white-space: nowrap;
   }
-  #take-five-root .search-btn:hover:not(:disabled) { transform: translateY(-2px); }
-  #take-five-root .search-btn:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 2px 0 rgba(58,33,69,0.18); }
+  #take-five-root .search-btn:hover:not(:disabled) { background: var(--green-deep); transform: translateY(-1px); }
   #take-five-root .search-btn:disabled { opacity: 0.5; cursor: default; }
-  #take-five-root .search-hint { font-size: 0.85rem; color: var(--ink-soft); margin-top: 0.7rem; font-weight: 600; }
+  #take-five-root .search-hint { font-size: 0.85rem; color: var(--ink-soft); margin-top: 0.8rem; font-weight: 600; }
   #take-five-root .search-hint button {
-    background: none; border: none; text-decoration: underline; color: var(--pink-ink); cursor: pointer;
+    background: none; border: none; text-decoration: underline; color: var(--green-deep); cursor: pointer;
     font-size: 0.85rem; padding: 0; font-weight: 700;
   }
+
+  /* ---------- Trending ---------- */
+  #take-five-root .trending {
+    display: flex; align-items: center; justify-content: center; gap: 0.9rem; flex-wrap: wrap;
+    margin-top: 1.6rem; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.03em;
+  }
+  #take-five-root .trending-label { color: var(--ink-faint); }
+  #take-five-root .trending-chip { color: var(--ink); cursor: pointer; transition: color 0.12s ease; }
+  #take-five-root .trending-chip:hover { color: var(--green-deep); }
 
   /* ---------- Loading ---------- */
   #take-five-root .loading-panel { padding: 2rem 0; }
   #take-five-root .loading-step {
     display: flex; align-items: baseline; gap: 0.7rem; font-size: 0.98rem; font-weight: 600;
-    color: #C6B9D1; padding: 0.4rem 0; transition: color 0.3s ease;
+    color: var(--ink-faint); padding: 0.4rem 0; transition: color 0.3s ease;
   }
-  #take-five-root .loading-step.active { color: var(--pink-ink); }
-  #take-five-root .loading-step.done { color: var(--mint-ink); }
-  #take-five-root .loading-step .mark { font-family: 'Fredoka', sans-serif; width: 1.2rem; }
+  #take-five-root .loading-step.active { color: var(--green-deep); }
+  #take-five-root .loading-step.done { color: var(--green); }
+  #take-five-root .loading-step .mark { font-family: 'Bricolage Grotesque', sans-serif; width: 1.2rem; }
 
   /* ---------- Error ---------- */
   #take-five-root .error-panel {
@@ -99,24 +122,24 @@
   }
 
   /* ---------- Report header ---------- */
-  #take-five-root .report { padding-top: 2rem; }
+  #take-five-root .report { padding-top: 1.4rem; }
   #take-five-root .report-header {
     display: flex; justify-content: space-between; gap: 2rem; flex-wrap: wrap;
     background: var(--card); border-radius: 24px; padding: 1.6rem 1.8rem;
-    box-shadow: 0 8px 24px rgba(58,33,69,0.07);
+    box-shadow: 0 8px 24px rgba(21,24,31,0.06);
   }
-  #take-five-root .company-name { font-size: 1.9rem; margin: 0 0 0.3rem 0; color: var(--pink-ink); }
+  #take-five-root .company-name { font-size: 1.9rem; margin: 0 0 0.3rem 0; color: var(--ink); }
   #take-five-root .company-meta { font-size: 0.88rem; color: var(--ink-soft); }
   #take-five-root .company-meta div { margin: 0.2rem 0; }
   #take-five-root .company-meta b { color: var(--ink); font-weight: 700; }
   #take-five-root .period-tag {
-    font-size: 0.78rem; font-weight: 700; letter-spacing: 0.02em; color: var(--mint-ink);
-    background: var(--mint-bg); border-radius: 999px; padding: 0.35rem 0.85rem; white-space: nowrap; height: fit-content;
+    font-size: 0.78rem; font-weight: 700; letter-spacing: 0.02em; color: var(--green-deep);
+    background: var(--green-soft); border-radius: 999px; padding: 0.35rem 0.85rem; white-space: nowrap; height: fit-content;
   }
   #take-five-root .crosswalk-tag {
     font-size: 0.76rem; color: var(--ink-soft); margin-top: 0.6rem; font-weight: 600;
   }
-  #take-five-root .crosswalk-tag b { color: var(--pink-ink); }
+  #take-five-root .crosswalk-tag b { color: var(--green-deep); }
 
   /* ---------- Score seal + pillars ---------- */
   #take-five-root .score-row {
@@ -124,27 +147,27 @@
   }
   #take-five-root .seal {
     width: 140px; height: 140px; border-radius: 50%;
-    background: conic-gradient(from 200deg, var(--mint), var(--pink), var(--mint));
+    background: conic-gradient(from 200deg, var(--green), var(--pink), var(--green));
     display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0; position: relative; box-shadow: 0 10px 26px rgba(58,33,69,0.14);
+    flex-shrink: 0; position: relative; box-shadow: 0 10px 26px rgba(21,24,31,0.12);
   }
   #take-five-root .seal::before {
     content: ""; position: absolute; inset: 8px; border-radius: 50%;
     background: var(--card);
   }
-  #take-five-root .seal .num { position: relative; font-family: 'Fredoka', sans-serif; font-size: 2.7rem; font-weight: 600; color: var(--pink-ink); line-height: 1; }
+  #take-five-root .seal .num { position: relative; font-family: 'Bricolage Grotesque', sans-serif; font-size: 2.7rem; font-weight: 700; color: var(--ink); line-height: 1; }
   #take-five-root .seal .den { position: relative; font-size: 0.7rem; color: var(--ink-soft); letter-spacing: 0.05em; margin-top: 0.2rem; font-weight: 700; }
   #take-five-root .pillars { flex: 1; min-width: 260px; display: flex; flex-direction: column; gap: 0.75rem; }
   #take-five-root .pillar-bar-row { display: grid; grid-template-columns: 160px 1fr 34px; align-items: center; gap: 0.7rem; }
   #take-five-root .pillar-label { font-size: 0.88rem; color: var(--ink-soft); font-weight: 700; }
-  #take-five-root .pillar-track { height: 12px; background: var(--mint-bg); border-radius: 999px; position: relative; overflow: hidden; }
-  #take-five-root .pillar-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--mint-deep), var(--pink-deep)); }
+  #take-five-root .pillar-track { height: 12px; background: var(--green-soft); border-radius: 999px; position: relative; overflow: hidden; }
+  #take-five-root .pillar-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--green), var(--pink-deep)); }
   #take-five-root .pillar-score { font-size: 0.88rem; font-weight: 700; text-align: right; }
   #take-five-root .confidence-badge {
     display: inline-block; font-size: 0.76rem; font-weight: 700; padding: 0.28rem 0.75rem;
     border: none; border-radius: 999px; letter-spacing: 0.02em;
   }
-  #take-five-root .conf-high { color: var(--mint-ink); background: var(--mint-bg); }
+  #take-five-root .conf-high { color: var(--green-deep); background: var(--green-soft); }
   #take-five-root .conf-medium { color: var(--sun-ink); background: var(--sun-bg); }
   #take-five-root .conf-low { color: var(--coral-ink); background: var(--coral-bg); }
 
@@ -152,15 +175,15 @@
   #take-five-root .pillar-group { margin-top: 2rem; }
   #take-five-root .pillar-group-head {
     display: flex; justify-content: space-between; align-items: baseline;
-    background: var(--pink-bg); border-radius: 16px; padding: 0.6rem 1.1rem; margin-bottom: 0.7rem;
+    background: var(--green-soft); border-radius: 16px; padding: 0.6rem 1.1rem; margin-bottom: 0.7rem;
   }
-  #take-five-root .pillar-group-head h3 { font-size: 1.1rem; margin: 0; color: var(--pink-ink); }
+  #take-five-root .pillar-group-head h3 { font-size: 1.1rem; margin: 0; color: var(--green-deep); }
   #take-five-root .pillar-group-head .weight { font-size: 0.8rem; color: var(--ink-soft); font-weight: 700; }
   #take-five-root .topic-row {
     background: var(--card); border-radius: 18px; cursor: pointer; margin-bottom: 0.6rem;
-    box-shadow: 0 3px 10px rgba(58,33,69,0.05); transition: box-shadow 0.15s ease, transform 0.15s ease;
+    box-shadow: 0 3px 10px rgba(21,24,31,0.05); transition: box-shadow 0.15s ease, transform 0.15s ease;
   }
-  #take-five-root .topic-row:hover { box-shadow: 0 6px 16px rgba(58,33,69,0.1); transform: translateY(-1px); }
+  #take-five-root .topic-row:hover { box-shadow: 0 6px 16px rgba(21,24,31,0.09); transform: translateY(-1px); }
   #take-five-root .topic-row-main {
     display: grid; grid-template-columns: 1fr 90px 70px 20px; align-items: center;
     gap: 0.8rem; padding: 1rem 1.2rem;
@@ -168,40 +191,40 @@
   #take-five-root .topic-name { font-size: 0.96rem; font-weight: 700; }
   #take-five-root .topic-tag { font-size: 0.72rem; color: var(--ink-soft); font-style: italic; }
   #take-five-root .topic-weight { font-size: 0.82rem; color: var(--ink-soft); text-align: right; font-weight: 700; }
-  #take-five-root .topic-score { font-size: 1rem; font-weight: 700; text-align: right; color: var(--mint-ink); }
+  #take-five-root .topic-score { font-size: 1rem; font-weight: 700; text-align: right; color: var(--green-deep); }
   #take-five-root .topic-chevron { text-align: center; color: var(--pink-deep); transition: transform 0.15s ease; font-size: 0.9rem; }
   #take-five-root .topic-row.open .topic-chevron { transform: rotate(90deg); }
   #take-five-root .topic-detail {
     display: none; padding: 0 1.2rem 1.4rem 1.2rem;
   }
   #take-five-root .topic-row.open .topic-detail { display: block; }
-  #take-five-root .topic-explain { font-size: 0.92rem; color: var(--ink-soft); margin: 1rem 0 0 0; max-width: 68ch; font-weight: 600; }
+  #take-five-root .topic-explain { font-size: 0.92rem; color: var(--ink-soft); margin: 1rem 0 0 0; max-width: 68ch; font-weight: 500; }
 
   #take-five-root .weight-math {
     display: flex; gap: 0.8rem; flex-wrap: wrap; font-size: 0.78rem; color: var(--ink-soft);
     margin-bottom: 1.2rem;
   }
   #take-five-root .weight-math div {
-    background: var(--mint-bg); border-radius: 14px; padding: 0.5rem 0.9rem;
+    background: var(--green-soft); border-radius: 14px; padding: 0.5rem 0.9rem;
   }
-  #take-five-root .weight-math div b { color: var(--mint-ink); display: block; font-size: 1rem; font-family: 'Fredoka', sans-serif; }
+  #take-five-root .weight-math div b { color: var(--green-deep); display: block; font-size: 1rem; font-family: 'Bricolage Grotesque', sans-serif; }
 
   #take-five-root .evidence-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
   @media (max-width: 620px) { #take-five-root .evidence-cols { grid-template-columns: 1fr; } }
   #take-five-root .evidence-col h4 {
     font-size: 0.8rem; letter-spacing: 0.02em; margin: 0 0 0.5rem 0; font-weight: 800;
   }
-  #take-five-root .evidence-col.pos h4 { color: var(--mint-ink); }
+  #take-five-root .evidence-col.pos h4 { color: var(--green-deep); }
   #take-five-root .evidence-col.neg h4 { color: var(--coral-ink); }
   #take-five-root .evidence-item {
-    font-size: 0.85rem; font-weight: 600; padding: 0.7rem 0.85rem; margin-bottom: 0.5rem; background: var(--mint-bg);
+    font-size: 0.85rem; font-weight: 500; padding: 0.7rem 0.85rem; margin-bottom: 0.5rem; background: var(--green-soft);
     border-radius: 14px;
   }
   #take-five-root .evidence-col.neg .evidence-item { background: var(--coral-bg); }
   #take-five-root .evidence-item .src {
     display: block; margin-top: 0.35rem; font-size: 0.74rem; color: var(--ink-soft); font-weight: 700;
   }
-  #take-five-root .evidence-empty { font-size: 0.82rem; color: #C6B9D1; font-style: italic; font-weight: 600; }
+  #take-five-root .evidence-empty { font-size: 0.82rem; color: var(--ink-faint); font-style: italic; font-weight: 600; }
 
   /* ---------- Footer actions ---------- */
   #take-five-root .actions-row {
@@ -209,42 +232,55 @@
     flex-wrap: wrap; gap: 1rem;
   }
   #take-five-root .ghost-btn {
-    background: var(--card); border: none; color: var(--pink-ink); padding: 0.65rem 1.3rem; border-radius: 999px;
-    cursor: pointer; font-size: 0.88rem; font-weight: 700; font-family: 'Fredoka', sans-serif;
-    box-shadow: 0 4px 0 var(--pink);
+    background: var(--card); border: none; color: var(--green-deep); padding: 0.65rem 1.3rem; border-radius: 999px;
+    cursor: pointer; font-size: 0.88rem; font-weight: 700; font-family: 'DM Sans', sans-serif;
+    box-shadow: 0 4px 0 var(--green-soft);
     transition: transform 0.12s ease;
   }
   #take-five-root .ghost-btn:hover { transform: translateY(-2px); }
-  #take-five-root .method-note { font-size: 0.8rem; color: var(--ink-soft); max-width: 46ch; font-weight: 600; }
+  #take-five-root .method-note { font-size: 0.8rem; color: var(--ink-soft); max-width: 46ch; font-weight: 500; }
 
   /* ---------- Compare view ---------- */
   #take-five-root .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem; margin-top: 1.6rem; }
   @media (max-width: 700px) { #take-five-root .compare-grid { grid-template-columns: 1fr; } }
-  #take-five-root .compare-card { border: none; border-radius: 22px; padding: 1.6rem; background: var(--card); box-shadow: 0 8px 22px rgba(58,33,69,0.07); }
-  #take-five-root .compare-card h3 { margin: 0 0 0.2rem 0; font-size: 1.15rem; color: var(--pink-ink); }
-  #take-five-root .compare-card .compare-score { font-family: 'Fredoka', sans-serif; font-size: 2.6rem; color: var(--mint-ink); margin: 0.5rem 0; }
+  #take-five-root .compare-card { border: none; border-radius: 22px; padding: 1.6rem; background: var(--card); box-shadow: 0 8px 22px rgba(21,24,31,0.06); }
+  #take-five-root .compare-card h3 { margin: 0 0 0.2rem 0; font-size: 1.15rem; color: var(--ink); }
+  #take-five-root .compare-card .compare-score { font-family: 'Bricolage Grotesque', sans-serif; font-size: 2.6rem; color: var(--green-deep); margin: 0.5rem 0; }
   #take-five-root .compare-pillar { display: grid; grid-template-columns: 1fr 34px; gap: 0.6rem; align-items: center; font-size: 0.82rem; margin: 0.3rem 0; }
   #take-five-root .compare-pillar .pillar-track { height: 8px; }
-  #take-five-root .compare-note { font-size: 0.8rem; color: var(--ink-soft); margin-top: 1.4rem; font-weight: 600; }
+  #take-five-root .compare-note { font-size: 0.8rem; color: var(--ink-soft); margin-top: 1.4rem; font-weight: 500; }
 </style>
 
 <div id="take-five-root">
-  <div class="wrap">
-    <div class="masthead">
-      <div class="masthead-row">
-        <h1 class="wordmark">Take<span>Five</span></h1>
-        <div class="tagline">An evidence-based sustainability ledger for Indian companies, scored against Take Five's own NIC → SASB materiality crosswalk.</div>
-      </div>
-    </div>
+  <div class="hero">
+    <div class="badge badge-1"><span class="dot"></span>SASB-MAPPED</div>
+    <div class="badge badge-2"><span class="dot pink"></span>EVIDENCE-LED</div>
+    <div class="badge badge-3"><span class="dot"></span>INDIA-FIRST</div>
+    <div class="badge badge-4"><span class="dot pink"></span>NIC → SASB</div>
+
+    <h1 class="wordmark">TAKE5</h1>
+    <h2 class="headline">Search any Indian company.<br>See what's really behind<br><span class="accent">the label.</span></h2>
+    <p class="hero-sub">Evidence-based sustainability scores built on SASB materiality and the full public record — not just what a company chooses to disclose.</p>
 
     <div class="search-panel">
       <div class="search-row">
-        <input id="tf-input" class="search-input" type="text" placeholder="Search a company — e.g. Tata Steel, Zomato, JSW Energy" />
-        <button id="tf-search-btn" class="search-btn">Assess →</button>
+        <span class="search-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+        <input id="tf-input" class="search-input" type="text" placeholder="Search a company — Tata Steel, Zomato, ITC..." />
+        <button id="tf-search-btn" class="search-btn">Check Impact</button>
       </div>
       <div class="search-hint" id="tf-hint"></div>
     </div>
 
+    <div class="trending">
+      <span class="trending-label">TRENDING IN INDIA:</span>
+      <span class="trending-chip">TATA STEEL</span>
+      <span class="trending-chip">ZOMATO</span>
+      <span class="trending-chip">RELIANCE</span>
+      <span class="trending-chip">ITC</span>
+    </div>
+  </div>
+
+  <div class="wrap">
     <div id="tf-loading" class="loading-panel" style="display:none;"></div>
     <div id="tf-error"></div>
     <div id="tf-report"></div>
@@ -279,7 +315,7 @@ window.TF_TOPIC_DEFINITIONS = {"Access & Affordability":"Evaluates whether the c
     if (document.getElementById('tf-fonts')) return;
     const link = document.createElement('link');
     link.id = 'tf-fonts'; link.rel = 'stylesheet';
-    link.href = 'https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800&display=swap';
+    link.href = 'https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=DM+Sans:wght@400;500;600;700&display=swap';
     document.head.appendChild(link);
   }
   fontsOnce();
@@ -513,6 +549,13 @@ ${topicList.map(t => {
 
   // ---------- UI ----------
   function setHint(msg){ hintEl.textContent = msg || ''; }
+
+  document.querySelectorAll('#take-five-root .trending-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      input.value = chip.textContent.trim();
+      runSearch();
+    });
+  });
 
   function renderLoading(){
     loadingEl.style.display = 'block';
