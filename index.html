@@ -1,215 +1,231 @@
 <style>
   #take-five-root {
-    --paper: #EDE9DF;
-    --paper-raised: #F5F2EA;
-    --ink: #1E2233;
-    --ink-soft: #4B5164;
-    --indigo: #2B3A55;
-    --indigo-deep: #1B2740;
-    --ochre: #A97423;
-    --ochre-soft: #E4C98B;
-    --rust: #8C3B2E;
-    --rust-soft: #E7CFC8;
-    --moss: #3F6B4A;
-    --moss-soft: #D3E0D3;
-    --line: rgba(30,34,51,0.16);
-    --line-soft: rgba(30,34,51,0.09);
-    font-family: 'IBM Plex Sans', -apple-system, sans-serif;
+    --mint-bg: #EAFBF2;
+    --mint: #7CE8B8;
+    --mint-deep: #22B47E;
+    --mint-ink: #0E6B4A;
+    --pink-bg: #FFE9F4;
+    --pink: #FFC2E0;
+    --pink-deep: #FF7FB4;
+    --pink-ink: #C43D7C;
+    --card: #FFFFFF;
+    --ink: #3A2145;
+    --ink-soft: #8B7A9C;
+    --coral: #FF6B6B;
+    --coral-bg: #FFE3E3;
+    --coral-ink: #D14646;
+    --sun: #FFB84D;
+    --sun-bg: #FFF0D6;
+    --sun-ink: #C77800;
+    font-family: 'Nunito', -apple-system, sans-serif;
     color: var(--ink);
-    background: var(--paper);
-    background-image:
-      linear-gradient(var(--line-soft) 1px, transparent 1px);
-    background-size: 100% 2.1rem;
+    background: linear-gradient(160deg, var(--mint-bg) 0%, var(--mint-bg) 45%, var(--pink-bg) 100%);
     min-height: 100vh;
     padding: 0 0 6rem 0;
-    line-height: 1.5;
+    line-height: 1.55;
   }
   #take-five-root * { box-sizing: border-box; }
-  #take-five-root .wrap { max-width: 880px; margin: 0 auto; padding: 0 1.5rem; }
+  #take-five-root .wrap { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; }
   #take-five-root h1, #take-five-root h2, #take-five-root h3, #take-five-root .serif {
-    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-family: 'Fredoka', 'Nunito', sans-serif;
   }
 
   /* ---------- Masthead ---------- */
   #take-five-root .masthead {
-    padding: 3.2rem 0 1.6rem 0;
-    border-bottom: 2px solid var(--ink);
+    padding: 3rem 0 1.6rem 0;
   }
   #take-five-root .masthead-row {
     display: flex; justify-content: space-between; align-items: flex-end; gap: 1rem; flex-wrap: wrap;
   }
   #take-five-root .wordmark {
-    font-size: 2.4rem; font-weight: 600; letter-spacing: -0.01em; margin: 0; color: var(--indigo-deep);
+    font-size: 2.8rem; font-weight: 600; letter-spacing: -0.01em; margin: 0; color: var(--mint-ink);
   }
-  #take-five-root .wordmark span { color: var(--ochre); }
+  #take-five-root .wordmark span {
+    color: var(--pink-deep);
+    text-shadow: 2px 2px 0 var(--mint);
+  }
   #take-five-root .tagline {
-    font-size: 0.92rem; color: var(--ink-soft); max-width: 340px; text-align: right;
-    padding-bottom: 0.3rem;
+    font-size: 0.95rem; color: var(--ink-soft); max-width: 320px; text-align: right;
+    padding-bottom: 0.5rem; font-weight: 600;
   }
 
   /* ---------- Search ---------- */
-  #take-five-root .search-panel { padding: 1.8rem 0; }
-  #take-five-root .search-row { display: flex; gap: 0.7rem; }
+  #take-five-root .search-panel { padding: 1.4rem 0 2rem 0; }
+  #take-five-root .search-row { display: flex; gap: 0.8rem; }
   #take-five-root .search-input {
-    flex: 1; font-family: 'IBM Plex Serif', serif; font-size: 1.25rem;
-    background: var(--paper-raised); border: 1.5px solid var(--ink);
-    padding: 0.75rem 1rem; color: var(--ink); outline: none;
+    flex: 1; font-family: 'Fredoka', sans-serif; font-size: 1.2rem;
+    background: var(--card); border: none; border-radius: 999px;
+    padding: 1rem 1.6rem; color: var(--ink); outline: none;
+    box-shadow: 0 6px 0 var(--mint), 0 6px 18px rgba(58,33,69,0.08);
+    transition: transform 0.12s ease;
   }
-  #take-five-root .search-input::placeholder { color: #8A8F9E; font-style: italic; }
-  #take-five-root .search-input:focus { border-color: var(--indigo); box-shadow: 0 0 0 3px var(--line-soft); }
+  #take-five-root .search-input::placeholder { color: #B8ABC4; font-weight: 500; }
+  #take-five-root .search-input:focus { transform: translateY(2px); box-shadow: 0 4px 0 var(--mint), 0 4px 14px rgba(58,33,69,0.1); }
   #take-five-root .search-btn {
-    font-family: 'IBM Plex Sans', sans-serif; font-weight: 600; font-size: 0.95rem;
-    background: var(--indigo-deep); color: var(--paper-raised); border: 1.5px solid var(--indigo-deep);
-    padding: 0.75rem 1.4rem; cursor: pointer; transition: background 0.15s ease;
+    font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 1.05rem;
+    background: linear-gradient(135deg, var(--pink-deep), var(--mint-deep)); color: #fff; border: none; border-radius: 999px;
+    padding: 1rem 1.8rem; cursor: pointer; transition: transform 0.12s ease, box-shadow 0.12s ease;
+    box-shadow: 0 6px 0 rgba(58,33,69,0.18);
   }
-  #take-five-root .search-btn:hover { background: var(--indigo); }
-  #take-five-root .search-btn:disabled { opacity: 0.55; cursor: default; }
-  #take-five-root .search-hint { font-size: 0.82rem; color: var(--ink-soft); margin-top: 0.6rem; }
+  #take-five-root .search-btn:hover:not(:disabled) { transform: translateY(-2px); }
+  #take-five-root .search-btn:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 2px 0 rgba(58,33,69,0.18); }
+  #take-five-root .search-btn:disabled { opacity: 0.5; cursor: default; }
+  #take-five-root .search-hint { font-size: 0.85rem; color: var(--ink-soft); margin-top: 0.7rem; font-weight: 600; }
   #take-five-root .search-hint button {
-    background: none; border: none; text-decoration: underline; color: var(--indigo); cursor: pointer;
-    font-size: 0.82rem; padding: 0;
+    background: none; border: none; text-decoration: underline; color: var(--pink-ink); cursor: pointer;
+    font-size: 0.85rem; padding: 0; font-weight: 700;
   }
 
   /* ---------- Loading ---------- */
-  #take-five-root .loading-panel { padding: 2.2rem 0; }
+  #take-five-root .loading-panel { padding: 2rem 0; }
   #take-five-root .loading-step {
-    display: flex; align-items: baseline; gap: 0.7rem; font-size: 0.95rem;
-    color: #A9AEBC; padding: 0.35rem 0; transition: color 0.3s ease;
+    display: flex; align-items: baseline; gap: 0.7rem; font-size: 0.98rem; font-weight: 600;
+    color: #C6B9D1; padding: 0.4rem 0; transition: color 0.3s ease;
   }
-  #take-five-root .loading-step.active { color: var(--ink); }
-  #take-five-root .loading-step.done { color: var(--moss); }
-  #take-five-root .loading-step .mark { font-family: 'IBM Plex Serif', serif; width: 1.1rem; }
+  #take-five-root .loading-step.active { color: var(--pink-ink); }
+  #take-five-root .loading-step.done { color: var(--mint-ink); }
+  #take-five-root .loading-step .mark { font-family: 'Fredoka', sans-serif; width: 1.2rem; }
 
   /* ---------- Error ---------- */
   #take-five-root .error-panel {
-    border: 1.5px solid var(--rust); background: var(--rust-soft); padding: 1.2rem 1.4rem; margin: 1.6rem 0;
+    border: none; border-radius: 20px; background: var(--coral-bg); padding: 1.3rem 1.5rem; margin: 1.6rem 0;
+    box-shadow: 0 4px 0 var(--coral);
   }
-  #take-five-root .error-panel h3 { margin: 0 0 0.4rem 0; color: var(--rust); font-size: 1.05rem; }
-  #take-five-root .error-panel p { margin: 0.2rem 0; font-size: 0.92rem; color: var(--ink-soft); }
+  #take-five-root .error-panel h3 { margin: 0 0 0.4rem 0; color: var(--coral-ink); font-size: 1.1rem; }
+  #take-five-root .error-panel p { margin: 0.2rem 0; font-size: 0.92rem; color: var(--ink-soft); font-weight: 600; }
   #take-five-root .retry-btn {
-    margin-top: 0.7rem; background: none; border: 1.5px solid var(--rust); color: var(--rust);
-    padding: 0.4rem 0.9rem; cursor: pointer; font-size: 0.85rem; font-weight: 600;
+    margin-top: 0.8rem; background: var(--coral); border: none; border-radius: 999px; color: #fff;
+    padding: 0.5rem 1.1rem; cursor: pointer; font-size: 0.85rem; font-weight: 700;
   }
 
   /* ---------- Report header ---------- */
-  #take-five-root .report { padding-top: 2.4rem; }
+  #take-five-root .report { padding-top: 2rem; }
   #take-five-root .report-header {
     display: flex; justify-content: space-between; gap: 2rem; flex-wrap: wrap;
-    padding-bottom: 1.6rem; border-bottom: 1px solid var(--line);
+    background: var(--card); border-radius: 24px; padding: 1.6rem 1.8rem;
+    box-shadow: 0 8px 24px rgba(58,33,69,0.07);
   }
-  #take-five-root .company-name { font-size: 1.7rem; margin: 0 0 0.2rem 0; }
-  #take-five-root .company-meta { font-size: 0.86rem; color: var(--ink-soft); }
-  #take-five-root .company-meta div { margin: 0.15rem 0; }
-  #take-five-root .company-meta b { color: var(--ink); font-weight: 600; }
+  #take-five-root .company-name { font-size: 1.9rem; margin: 0 0 0.3rem 0; color: var(--pink-ink); }
+  #take-five-root .company-meta { font-size: 0.88rem; color: var(--ink-soft); }
+  #take-five-root .company-meta div { margin: 0.2rem 0; }
+  #take-five-root .company-meta b { color: var(--ink); font-weight: 700; }
   #take-five-root .period-tag {
-    font-size: 0.78rem; letter-spacing: 0.02em; color: var(--ink-soft);
-    border: 1px solid var(--line); padding: 0.2rem 0.55rem; white-space: nowrap; height: fit-content;
+    font-size: 0.78rem; font-weight: 700; letter-spacing: 0.02em; color: var(--mint-ink);
+    background: var(--mint-bg); border-radius: 999px; padding: 0.35rem 0.85rem; white-space: nowrap; height: fit-content;
   }
   #take-five-root .crosswalk-tag {
-    font-size: 0.74rem; color: var(--ink-soft); margin-top: 0.5rem;
+    font-size: 0.76rem; color: var(--ink-soft); margin-top: 0.6rem; font-weight: 600;
   }
-  #take-five-root .crosswalk-tag b { color: var(--indigo); }
+  #take-five-root .crosswalk-tag b { color: var(--pink-ink); }
 
   /* ---------- Score seal + pillars ---------- */
   #take-five-root .score-row {
     display: flex; gap: 2.2rem; padding: 2rem 0; align-items: center; flex-wrap: wrap;
   }
   #take-five-root .seal {
-    width: 132px; height: 132px; border-radius: 50%; border: 3px solid var(--indigo-deep);
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    flex-shrink: 0; background: var(--paper-raised); position: relative;
+    width: 140px; height: 140px; border-radius: 50%;
+    background: conic-gradient(from 200deg, var(--mint), var(--pink), var(--mint));
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; position: relative; box-shadow: 0 10px 26px rgba(58,33,69,0.14);
   }
   #take-five-root .seal::before {
-    content: ""; position: absolute; inset: 6px; border: 1px solid var(--line);
-    border-radius: 50%;
+    content: ""; position: absolute; inset: 8px; border-radius: 50%;
+    background: var(--card);
   }
-  #take-five-root .seal .num { font-family: 'IBM Plex Serif', serif; font-size: 2.6rem; font-weight: 600; color: var(--indigo-deep); line-height: 1; }
-  #take-five-root .seal .den { font-size: 0.72rem; color: var(--ink-soft); letter-spacing: 0.05em; margin-top: 0.15rem; }
-  #take-five-root .pillars { flex: 1; min-width: 260px; display: flex; flex-direction: column; gap: 0.65rem; }
+  #take-five-root .seal .num { position: relative; font-family: 'Fredoka', sans-serif; font-size: 2.7rem; font-weight: 600; color: var(--pink-ink); line-height: 1; }
+  #take-five-root .seal .den { position: relative; font-size: 0.7rem; color: var(--ink-soft); letter-spacing: 0.05em; margin-top: 0.2rem; font-weight: 700; }
+  #take-five-root .pillars { flex: 1; min-width: 260px; display: flex; flex-direction: column; gap: 0.75rem; }
   #take-five-root .pillar-bar-row { display: grid; grid-template-columns: 160px 1fr 34px; align-items: center; gap: 0.7rem; }
-  #take-five-root .pillar-label { font-size: 0.86rem; color: var(--ink-soft); }
-  #take-five-root .pillar-track { height: 8px; background: var(--line-soft); position: relative; }
-  #take-five-root .pillar-fill { height: 100%; background: var(--indigo); }
-  #take-five-root .pillar-score { font-size: 0.86rem; font-weight: 600; text-align: right; }
+  #take-five-root .pillar-label { font-size: 0.88rem; color: var(--ink-soft); font-weight: 700; }
+  #take-five-root .pillar-track { height: 12px; background: var(--mint-bg); border-radius: 999px; position: relative; overflow: hidden; }
+  #take-five-root .pillar-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--mint-deep), var(--pink-deep)); }
+  #take-five-root .pillar-score { font-size: 0.88rem; font-weight: 700; text-align: right; }
   #take-five-root .confidence-badge {
-    display: inline-block; font-size: 0.76rem; font-weight: 600; padding: 0.15rem 0.55rem;
-    border: 1px solid currentColor; letter-spacing: 0.02em;
+    display: inline-block; font-size: 0.76rem; font-weight: 700; padding: 0.28rem 0.75rem;
+    border: none; border-radius: 999px; letter-spacing: 0.02em;
   }
-  #take-five-root .conf-high { color: var(--moss); }
-  #take-five-root .conf-medium { color: var(--ochre); }
-  #take-five-root .conf-low { color: var(--rust); }
+  #take-five-root .conf-high { color: var(--mint-ink); background: var(--mint-bg); }
+  #take-five-root .conf-medium { color: var(--sun-ink); background: var(--sun-bg); }
+  #take-five-root .conf-low { color: var(--coral-ink); background: var(--coral-bg); }
 
   /* ---------- Topic ledger ---------- */
-  #take-five-root .pillar-group { margin-top: 2.2rem; }
+  #take-five-root .pillar-group { margin-top: 2rem; }
   #take-five-root .pillar-group-head {
     display: flex; justify-content: space-between; align-items: baseline;
-    border-bottom: 1.5px solid var(--ink); padding-bottom: 0.4rem; margin-bottom: 0.2rem;
+    background: var(--pink-bg); border-radius: 16px; padding: 0.6rem 1.1rem; margin-bottom: 0.7rem;
   }
-  #take-five-root .pillar-group-head h3 { font-size: 1.05rem; margin: 0; }
-  #take-five-root .pillar-group-head .weight { font-size: 0.8rem; color: var(--ink-soft); }
+  #take-five-root .pillar-group-head h3 { font-size: 1.1rem; margin: 0; color: var(--pink-ink); }
+  #take-five-root .pillar-group-head .weight { font-size: 0.8rem; color: var(--ink-soft); font-weight: 700; }
   #take-five-root .topic-row {
-    border-bottom: 1px solid var(--line-soft); cursor: pointer;
+    background: var(--card); border-radius: 18px; cursor: pointer; margin-bottom: 0.6rem;
+    box-shadow: 0 3px 10px rgba(58,33,69,0.05); transition: box-shadow 0.15s ease, transform 0.15s ease;
   }
+  #take-five-root .topic-row:hover { box-shadow: 0 6px 16px rgba(58,33,69,0.1); transform: translateY(-1px); }
   #take-five-root .topic-row-main {
     display: grid; grid-template-columns: 1fr 90px 70px 20px; align-items: center;
-    gap: 0.8rem; padding: 0.85rem 0.2rem;
+    gap: 0.8rem; padding: 1rem 1.2rem;
   }
-  #take-five-root .topic-row-main:hover { background: var(--line-soft); }
-  #take-five-root .topic-name { font-size: 0.94rem; font-weight: 500; }
+  #take-five-root .topic-name { font-size: 0.96rem; font-weight: 700; }
   #take-five-root .topic-tag { font-size: 0.72rem; color: var(--ink-soft); font-style: italic; }
-  #take-five-root .topic-weight { font-size: 0.82rem; color: var(--ink-soft); text-align: right; }
-  #take-five-root .topic-score { font-size: 0.95rem; font-weight: 600; text-align: right; }
-  #take-five-root .topic-chevron { text-align: center; color: var(--ink-soft); transition: transform 0.15s ease; font-size: 0.8rem; }
+  #take-five-root .topic-weight { font-size: 0.82rem; color: var(--ink-soft); text-align: right; font-weight: 700; }
+  #take-five-root .topic-score { font-size: 1rem; font-weight: 700; text-align: right; color: var(--mint-ink); }
+  #take-five-root .topic-chevron { text-align: center; color: var(--pink-deep); transition: transform 0.15s ease; font-size: 0.9rem; }
   #take-five-root .topic-row.open .topic-chevron { transform: rotate(90deg); }
   #take-five-root .topic-detail {
-    display: none; padding: 0 0.2rem 1.4rem 0.2rem;
+    display: none; padding: 0 1.2rem 1.4rem 1.2rem;
   }
   #take-five-root .topic-row.open .topic-detail { display: block; }
-  #take-five-root .topic-explain { font-size: 0.9rem; color: var(--ink-soft); margin: 0 0 1rem 0; max-width: 68ch; }
+  #take-five-root .topic-explain { font-size: 0.92rem; color: var(--ink-soft); margin: 1rem 0 0 0; max-width: 68ch; font-weight: 600; }
 
   #take-five-root .weight-math {
-    display: flex; gap: 1.4rem; flex-wrap: wrap; font-size: 0.78rem; color: var(--ink-soft);
-    border-left: 2px solid var(--line); padding: 0.1rem 0 0.1rem 0.8rem; margin-bottom: 1.1rem;
+    display: flex; gap: 0.8rem; flex-wrap: wrap; font-size: 0.78rem; color: var(--ink-soft);
+    margin-bottom: 1.2rem;
   }
-  #take-five-root .weight-math div b { color: var(--ink); display: block; font-size: 0.95rem; font-family: 'IBM Plex Serif', serif; }
+  #take-five-root .weight-math div {
+    background: var(--mint-bg); border-radius: 14px; padding: 0.5rem 0.9rem;
+  }
+  #take-five-root .weight-math div b { color: var(--mint-ink); display: block; font-size: 1rem; font-family: 'Fredoka', sans-serif; }
 
-  #take-five-root .evidence-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; }
+  #take-five-root .evidence-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
   @media (max-width: 620px) { #take-five-root .evidence-cols { grid-template-columns: 1fr; } }
   #take-five-root .evidence-col h4 {
-    font-size: 0.78rem; letter-spacing: 0.02em; margin: 0 0 0.5rem 0; font-weight: 600;
+    font-size: 0.8rem; letter-spacing: 0.02em; margin: 0 0 0.5rem 0; font-weight: 800;
   }
-  #take-five-root .evidence-col.pos h4 { color: var(--moss); }
-  #take-five-root .evidence-col.neg h4 { color: var(--rust); }
+  #take-five-root .evidence-col.pos h4 { color: var(--mint-ink); }
+  #take-five-root .evidence-col.neg h4 { color: var(--coral-ink); }
   #take-five-root .evidence-item {
-    font-size: 0.85rem; padding: 0.55rem 0.7rem; margin-bottom: 0.5rem; background: var(--paper-raised);
-    border-left: 3px solid var(--moss-soft);
+    font-size: 0.85rem; font-weight: 600; padding: 0.7rem 0.85rem; margin-bottom: 0.5rem; background: var(--mint-bg);
+    border-radius: 14px;
   }
-  #take-five-root .evidence-col.neg .evidence-item { border-left-color: var(--rust-soft); }
+  #take-five-root .evidence-col.neg .evidence-item { background: var(--coral-bg); }
   #take-five-root .evidence-item .src {
-    display: block; margin-top: 0.3rem; font-size: 0.74rem; color: var(--ink-soft);
+    display: block; margin-top: 0.35rem; font-size: 0.74rem; color: var(--ink-soft); font-weight: 700;
   }
-  #take-five-root .evidence-empty { font-size: 0.82rem; color: #A9AEBC; font-style: italic; }
+  #take-five-root .evidence-empty { font-size: 0.82rem; color: #C6B9D1; font-style: italic; font-weight: 600; }
 
   /* ---------- Footer actions ---------- */
   #take-five-root .actions-row {
-    display: flex; justify-content: space-between; align-items: center; padding-top: 2.4rem; margin-top: 1rem;
-    border-top: 1px solid var(--line); flex-wrap: wrap; gap: 1rem;
+    display: flex; justify-content: space-between; align-items: center; padding-top: 1.6rem; margin-top: 1.4rem;
+    flex-wrap: wrap; gap: 1rem;
   }
   #take-five-root .ghost-btn {
-    background: none; border: 1.5px solid var(--ink); color: var(--ink); padding: 0.55rem 1.1rem;
-    cursor: pointer; font-size: 0.85rem; font-weight: 600; font-family: 'IBM Plex Sans', sans-serif;
+    background: var(--card); border: none; color: var(--pink-ink); padding: 0.65rem 1.3rem; border-radius: 999px;
+    cursor: pointer; font-size: 0.88rem; font-weight: 700; font-family: 'Fredoka', sans-serif;
+    box-shadow: 0 4px 0 var(--pink);
+    transition: transform 0.12s ease;
   }
-  #take-five-root .ghost-btn:hover { background: var(--ink); color: var(--paper-raised); }
-  #take-five-root .method-note { font-size: 0.78rem; color: var(--ink-soft); max-width: 46ch; }
+  #take-five-root .ghost-btn:hover { transform: translateY(-2px); }
+  #take-five-root .method-note { font-size: 0.8rem; color: var(--ink-soft); max-width: 46ch; font-weight: 600; }
 
   /* ---------- Compare view ---------- */
-  #take-five-root .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1.6rem; }
+  #take-five-root .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem; margin-top: 1.6rem; }
   @media (max-width: 700px) { #take-five-root .compare-grid { grid-template-columns: 1fr; } }
-  #take-five-root .compare-card { border: 1px solid var(--line); padding: 1.4rem; background: var(--paper-raised); }
-  #take-five-root .compare-card h3 { margin: 0 0 0.2rem 0; font-size: 1.1rem; }
-  #take-five-root .compare-card .compare-score { font-family: 'IBM Plex Serif', serif; font-size: 2.6rem; color: var(--indigo-deep); margin: 0.4rem 0; }
+  #take-five-root .compare-card { border: none; border-radius: 22px; padding: 1.6rem; background: var(--card); box-shadow: 0 8px 22px rgba(58,33,69,0.07); }
+  #take-five-root .compare-card h3 { margin: 0 0 0.2rem 0; font-size: 1.15rem; color: var(--pink-ink); }
+  #take-five-root .compare-card .compare-score { font-family: 'Fredoka', sans-serif; font-size: 2.6rem; color: var(--mint-ink); margin: 0.5rem 0; }
   #take-five-root .compare-pillar { display: grid; grid-template-columns: 1fr 34px; gap: 0.6rem; align-items: center; font-size: 0.82rem; margin: 0.3rem 0; }
-  #take-five-root .compare-note { font-size: 0.8rem; color: var(--ink-soft); margin-top: 1.4rem; }
+  #take-five-root .compare-pillar .pillar-track { height: 8px; }
+  #take-five-root .compare-note { font-size: 0.8rem; color: var(--ink-soft); margin-top: 1.4rem; font-weight: 600; }
 </style>
 
 <div id="take-five-root">
@@ -263,7 +279,7 @@ window.TF_TOPIC_DEFINITIONS = {"Access & Affordability":"Evaluates whether the c
     if (document.getElementById('tf-fonts')) return;
     const link = document.createElement('link');
     link.id = 'tf-fonts'; link.rel = 'stylesheet';
-    link.href = 'https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap';
+    link.href = 'https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800&display=swap';
     document.head.appendChild(link);
   }
   fontsOnce();
