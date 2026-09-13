@@ -557,7 +557,7 @@ Respond with ONLY a single valid JSON object, no markdown fences, no prose:
   "methodology_note": string (1-2 sentences on anything unusual \u2014 thin evidence, a secondary-activity risk folded into a topic, etc. Empty string if nothing notable.)
 }`;
 
-  const GEMINI_MODEL = 'gemini-3.6-flash';
+  const GEMINI_MODEL_CANDIDATES = ['gemini-flash-latest', 'gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-flash-lite-latest'];
   const GEMINI_KEY_STORAGE = 'tf_gemini_api_key';
 
   function getGeminiKey(){
@@ -565,6 +565,45 @@ Respond with ONLY a single valid JSON object, no markdown fences, no prose:
   }
   function setGeminiKey(key){
     localStorage.setItem(GEMINI_KEY_STORAGE, key.trim());
+  }
+
+  async function callGeminiWithModel(model, key, body){
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(key)}`;
+    let resp;
+    try {
+      resp = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+    } catch (networkErr) {
+      const err = new Error('Could not reach Gemini at all (network/CORS/ad-blocker level, before any response came back). Try disabling browser extensions (ad-blockers, privacy tools) for this site, or try a different network. Raw error: ' + networkErr.message);
+      err.retryable = false;
+      throw err;
+    }
+    if (!resp.ok) {
+      const errText = await resp.text().catch(()=> '');
+      const err = new Error('Gemini API request failed (' + resp.status + ') on model ' + model + '. ' + errText.slice(0,300));
+      err.retryable = (resp.status === 404 || resp.status === 429 || resp.status === 503);
+      throw err;
+    }
+    const data = await resp.json();
+    const candidate = (data.candidates || [])[0];
+    if (!candidate) {
+      const blockReason = data.promptFeedback && data.promptFeedback.blockReason;
+      const err = new Error(blockReason ? `Gemini blocked this request (${blockReason}).` : 'No output was returned from ' + model + '.');
+      err.retryable = false;
+      throw err;
+    }
+    const parts = (candidate.content && candidate.content.parts) || [];
+    const raw = parts.filter(p => typeof p.text === 'string').map(p => p.text).join('\n').trim();
+    if (!raw) { const err = new Error('No output was returned from ' + model + '.'); err.retryable = true; throw err; }
+    const cleaned = raw.replace(/^```json/i, '').replace(/^```/,'').replace(/```$/,'').trim();
+    const start = cleaned.indexOf('{');
+    const end = cleaned.lastIndexOf('}');
+    if (start === -1 || end === -1) { const err = new Error('The response from ' + model + ' was not valid JSON.'); err.retryable = true; throw err; }
+    try { return JSON.parse(cleaned.slice(start, end+1)); }
+    catch(e){ const err = new Error('Could not parse the assessment output from ' + model + ': ' + e.message); err.retryable = true; throw err; }
   }
 
   async function callGemini(system, userText, useSearch){
@@ -576,36 +615,17 @@ Respond with ONLY a single valid JSON object, no markdown fences, no prose:
       generationConfig: { maxOutputTokens: 8000 }
     };
     if (useSearch) body.tools = [ { google_search: {} } ];
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${encodeURIComponent(key)}`;
-    let resp;
-    try {
-      resp = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      });
-    } catch (networkErr) {
-      throw new Error('Could not reach Gemini at all (network/CORS/ad-blocker level, before any response came back). Try disabling browser extensions (ad-blockers, privacy tools) for this site, or try a different network. Raw error: ' + networkErr.message);
+    let lastErr;
+    for (const model of GEMINI_MODEL_CANDIDATES) {
+      try {
+        return await callGeminiWithModel(model, key, body);
+      } catch (err) {
+        lastErr = err;
+        if (!err.retryable) throw err;
+        // otherwise fall through and try the next candidate model
+      }
     }
-    if (!resp.ok) {
-      const errText = await resp.text().catch(()=> '');
-      throw new Error('Gemini API request failed (' + resp.status + '). ' + errText.slice(0,300));
-    }
-    const data = await resp.json();
-    const candidate = (data.candidates || [])[0];
-    if (!candidate) {
-      const blockReason = data.promptFeedback && data.promptFeedback.blockReason;
-      throw new Error(blockReason ? `Gemini blocked this request (${blockReason}).` : 'No output was returned. Try again.');
-    }
-    const parts = (candidate.content && candidate.content.parts) || [];
-    const raw = parts.filter(p => typeof p.text === 'string').map(p => p.text).join('\n').trim();
-    if (!raw) throw new Error('No output was returned. Try again.');
-    const cleaned = raw.replace(/^```json/i, '').replace(/^```/,'').replace(/```$/,'').trim();
-    const start = cleaned.indexOf('{');
-    const end = cleaned.lastIndexOf('}');
-    if (start === -1 || end === -1) throw new Error('The response was not valid JSON.');
-    try { return JSON.parse(cleaned.slice(start, end+1)); }
-    catch(e){ throw new Error('Could not parse the assessment output: ' + e.message); }
+    throw lastErr;
   }
 
   async function identifyCompany(name){
