@@ -1,39 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Take5 — Search any Indian company's real impact</title>
-<style>
-  html, body { margin: 0; padding: 0; overflow-x: hidden; }
-  #take-five-root {
-    overflow-x: hidden;
-    --cream: #FBF8F2;
-    --ink: #241019;
-    --ink-soft: #83737C;
-    --ink-faint: #BBA9B3;
-    --emerald: #10A669;
-    --emerald-deep: #0B7F4F;
-    --emerald-soft: #E1F5EC;
-    --mint: #2EE6AE;
-    --mint-deep: #17B98C;
-    --solar: #FFC93C;
-    --solar-ink: #A66E00;
-    --solar-soft: #FFF3D2;
-    --burgundy: #6E1330;
-    --burgundy-deep: #4C0D21;
-    --burgundy-soft: #F6E1E7;
-    --card: #FFFFFF;
-    font-family: 'DM Sans', -apple-system, sans-serif;
-    color: var(--ink);
-    background: var(--cream);
-    min-height: 100vh;
-    padding: 0 0 6rem 0;
-    line-height: 1.55;
-  }
-  #take-five-root * { box-sizing: border-box; }
-  #take-five-root .wrap { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; }
-  #take-five-root h1, #take-five-root h2, #take-five-root h3, #take-five-root .serif {
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Take5 — Search Corporate Impact</title>
+    <!-- Tailwind CSS Engine -->
+    <script src="https://tailwindcss.com"></script>
+    <style>
+        .glassmorphic {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+    </style>
+</head>
+<body class="bg-[#0B0F19] text-gray-100 min-h-screen flex flex-col font-sans selection:bg-emerald-500 selection:text-black">
+
+    <!-- Header Navigation -->
+    <header class="w-full max-w-7xl mx-auto px-6 py-6 flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+            <span class="text-2xl font-black tracking-tighter bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">Take5.</span>
+        </div>
+        <div class="text-xs text-gray-400 uppercase tracking-widest font-mono">Pause. Reflect. Buy.</div>
+    </header>
+
+    <!-- Main Content Context -->
+    <main class="flex-grow max-w-3xl w-full mx-auto px-6 flex flex-col justify-center items-center py-12">
+        
+        <!-- Hero Concept Statement -->
+        <div class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
+                Reveal the real impact of <br>
+                <span class="bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent">any Indian corporation</span>
+            </h1>
+            <p class="text-gray-400 max-w-md mx-auto text-sm md:text-base">
+                Uncover supply chain ethics, sustainability records, and real footprints before spending your money.
+            </p>
+        </div>
+
+        <!-- Realtime Search Component Room -->
+        <div class="w-full glassmorphic rounded-2xl p-6 shadow-2xl mb-8">
+            <div class="flex flex-col md:flex-row gap-3">
+                <input 
+                    type="text" 
+                    id="companyInput" 
+                    placeholder="Search e.g., Tata Steel, Zomato, Reliance, ITC..." 
+                    class="flex-grow bg-gray-900/90 border border-gray-700/60 rounded-xl px-4 py-3.5 text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500 transition-colors text-base"
+                />
+                <button 
+                    onclick="triggerSearch()" 
+                    id="searchBtn"
+                    class="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-gray-950 font-bold px-6 py-3.5 rounded-xl transition-all shadow-lg shadow-emerald-950/20 text-base"
+                >
+                    Check Impact
+                </button>
+            </div>
+
+            <!-- Fast Link Shortcuts -->
+            <div class="mt-4 flex flex-wrap gap-2 items-center text-xs text-gray-500">
+                <span class="font-mono uppercase tracking-wider">Trending:</span>
+                <button onclick="fillSearch('Tata Steel')" class="hover:text-emerald-400 transition-colors">TATA STEEL</button><span>•</span>
+                <button onclick="fillSearch('Zomato')" class="hover:text-emerald-400 transition-colors">ZOMATO</button><span>•</span>
+                <button onclick="fillSearch('Reliance')" class="hover:text-emerald-400 transition-colors">RELIANCE</button><span>•</span>
+                <button onclick="fillSearch('ITC')" class="hover:text-emerald-400 transition-colors">ITC</button>
+            </div>
+        </div>
+
+        <!-- Loading Interface Placeholder -->
+        <div id="loader" class="hidden w-full flex flex-col items-center space-y-4 py-8">
+            <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-emerald-400"></div>
+            <p class="text-sm font-mono text-gray-400 tracking-wide animate-pulse">Running AI Agent Analysis...</p>
+        </div>
+
+        <!-- AI Engine Output Panel Dashboard -->
+        <div id="resultsCard" class="hidden w-full glassmorphic rounded-2xl p-6 border-l-4 border-emerald-500 shadow-2xl transition-all">
+            <div class="flex justify-between items-center border-b border-gray-800 pb-4 mb-4">
+                <h3 id="resultTitle" class="text-xl font-bold tracking-tight text-white capitalize">Company Impact Profile</h3>
+                <span id="dataSourceBadge" class="text-[10px] font-mono font-bold tracking-widest px-2 py-0.5 rounded bg-gray-800 text-gray-400 uppercase">LIVE AGENT</span>
+            </div>
+            <div id="resultContent" class="text-gray-300 text-sm md:text-base leading-relaxed whitespace-pre-line space-y-4">
+                <!-- Data injections land here -->
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="text-center py-6 text-xs text-gray-600 font-mono">
+        Take5 Environmental & Social Governance Protocol Engine • Free Open Tier
+    </footer>
+
+    <!-- Communications Pipeline Script -->
+    <script>
+        // 🔴 CRITICAL STEP: REPLACE THIS WITH YOUR DEPLOYED RENDER BACKEND URL LATER
+        const BACKEND_URL = "https://onrender.com";
+
+        function fillSearch(name) {
+            document.getElementById('companyInput').value = name;
+        }
+
+        async function triggerSearch() {
+            const companyField = document.getElementById('companyInput');
+            const searchBtn = document.getElementById('searchBtn');
+            const loader = document.getElementById('loader');
+            const resultsCard = document.getElementById('resultsCard');
+            const resultContent = document.getElementById('resultContent');
+            const resultTitle = document.getElementById('resultTitle');
+            const badge = document.getElementById('dataSourceBadge');
+
+            const query = companyField.value.trim();
+            if(!query) return;
+
+            // Lock UI system elements during execution loop
+            searchBtn.disabled = true;
+            loader.classList.remove('hidden');
+            resultsCard.classList.add('hidden');
+
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/search`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ company: query })
+                });
+
+                const data = await response.json();
+                
+                if(data.error) {
+                    throw new Error(data.error);
+                }
+
+                // Inject data cleanly onto the card surface
+                resultTitle.innerText = `${query} Impact Blueprint`;
+                badge.innerText = data.source === 'database' ? 'Cached (Free Tier)' : 'Live Claude Analysis';
+                badge.className = data.source === 'database' 
+                    ? "text-[10px] font-mono font-bold tracking-widest px-2 py-0.5 rounded bg-teal-950 text-teal-400 uppercase"
+                    : "text-[10px] font-mono font-bold tracking-widest px-2 py-0.5 rounded bg-amber-950 text-amber-400 uppercase";
+                
+                resultContent.innerText = data.result;
+                resultsCard.classList.remove('hidden');
+
+            } catch (err) {
+                alert("Error connecting to server. Make sure your Render backend setup is live.");
+                console.error(err);
+            } finally {
+                searchBtn.disabled = false;
+                loader.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
     font-family: 'Bricolage Grotesque', 'DM Sans', sans-serif;
   }
 
