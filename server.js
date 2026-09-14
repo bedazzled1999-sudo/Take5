@@ -47,7 +47,7 @@ app.post('/api/search', async (req, res) => {
             throw new Error('Invalid response from Google AI studio engine');
         }
 
-        const aiText = aiData.candidates[0].content.parts[0].text;
+      const aiText = aiData.candidates[0].content.parts[0].text;
 
         // 3. Store the result in the database cache for the next user
         await supabase
